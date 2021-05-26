@@ -15,7 +15,7 @@ function SignUpScreen({navigation}) {
         name: 'eye-off'
     })
 
-    const { signIn } = useContext(AuthContext)
+    const { signUp } = useContext(AuthContext)
     
     function changeFirstName(e) {
         setFirstname(e)
@@ -58,7 +58,7 @@ function SignUpScreen({navigation}) {
             body: JSON.stringify(newAccount)
         })
         .then(r => r.json())
-        .then(data => signIn())
+        .then(data => signUp())
     }
 
     return(
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     text_footer: {
-        color: '#05375a',
+        color: '#05380a',
         fontSize: 18,
         marginBottom: 15
     },
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 10
+        borderRadius: 15
     },
     textSign: {
         fontSize: 18,
