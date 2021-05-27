@@ -1,10 +1,29 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
 function HomeScreen() {
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    fetch('http://localhost:3000/users/1')
+    .then(r => r.json())
+    .then(data => setUser(data))
+  }, [])
+
+  function item({ item }) {
+    return (
+      <TouchableOpacity key={item.id} style={styles.listItems}>
+        <Text style={styles.listText}> {item.name} </Text>
+      </TouchableOpacity>
+    )
+  }
+
     return(
         <View style={styles.container}>
-            <Text style={styles.text}> Home </Text>
+            <FlatList
+              data={user.stores} 
+              renderItem={item}
+            />
         </View>
     )
 }
@@ -18,5 +37,13 @@ const styles = StyleSheet.create({
     },
     text: {
       color: '#888'
+    },
+    listItems: {
+      backgroundColor: 'black',
+      
+    },
+    listText: {
+      fontSize: 14,
+      color: 'white'
     }
   })
