@@ -50,7 +50,7 @@ function SignUpScreen({navigation}) {
             email,
             password
         }
-        fetch('http://localhost:3000/users', {
+        fetch('http://localhost:8080/api/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

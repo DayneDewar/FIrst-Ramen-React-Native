@@ -20,7 +20,7 @@ function SignInScreen({navigation}) {
         //Hard Coded user 1, make dynamic
        e.preventDefault();
        
-       fetch('http://localhost:3000/users/1')
+       fetch('http://localhost:8080/api/users/2')
        .then(r => r.json())
        .then(data => signIn())
 
