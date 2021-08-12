@@ -53,6 +53,7 @@ function SignUpScreen({navigation}) {
         fetch('http://localhost:8080/api/users', {
             method: 'POST',
             headers: {
+                'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(newAccount)

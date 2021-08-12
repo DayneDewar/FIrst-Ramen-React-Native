@@ -9,7 +9,12 @@ function ExploreScreen() {
   let mapAnimation = new Animated.Value(0)
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/stores')
+    fetch('http://localhost:8080/api/stores',{
+        method: "GET",
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+        }
+    })
     .then(r => r.json())
     .then(data => setStores(data))
   },[])

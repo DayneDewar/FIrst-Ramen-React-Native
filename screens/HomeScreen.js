@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { AuthContext } from '../components/context';
 
 function HomeScreen() {
   const [user, setUser] = useState(null)
+  const { signOut } = useContext(AuthContext);
 
   useEffect(() => {
     fetch('http://localhost:8080/api/users/2')
@@ -20,6 +22,9 @@ function HomeScreen() {
 
     return(
         <View style={styles.container}>
+          <TouchableOpacity onPress={() => signOut()}>
+            <Text style={styles.listText}> Sign Out</Text>
+          </TouchableOpacity>
             {/* <FlatList
               data={user.stores} 
               renderItem={item}

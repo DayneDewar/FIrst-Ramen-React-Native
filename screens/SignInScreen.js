@@ -19,12 +19,26 @@ function SignInScreen({navigation}) {
     function SubmitLogin(e) {
         //Hard Coded user 1, make dynamic
        e.preventDefault();
-       
-       fetch('http://localhost:8080/api/users/2')
-       .then(r => r.json())
-       .then(data => signIn())
 
-       console.log(email, password)
+       fetch('http://localhost:8080/api/users/login', {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email, password})
+       })
+        .then(r => {
+           if (r.status !== 200) {
+            console.log("error code: " + r.status)
+            return
+           }
+
+           r.json().then(signIn())
+        })
+        .catch(err => {
+           console.log(err)
+       })
     }
     return(
         <View style={styles.container}>
@@ -34,7 +48,7 @@ function SignInScreen({navigation}) {
             <View style={styles.footer}>
                 <View style={styles.action}>
                     <Text style={styles.text}> Email </Text>
-                    <TextInput style={styles.input} onChangeText={(e) => changeEmail(e)}/>
+                    <TextInput style={styles.input} autoCapitalize='none' onChangeText={(e) => changeEmail(e)}/>
                 </View>
                 <View style={styles.action}>
                     <Text style={styles.text}> Password </Text>
