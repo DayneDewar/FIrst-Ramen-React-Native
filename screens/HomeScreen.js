@@ -1,9 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 import { AuthContext } from '../components/context';
 
+
+function Item({ item }) {
+  return (
+    <View>
+      <TouchableOpacity key={item.id} style={styles.listItems}>
+        <Text style={styles.listText}> {item.name} </Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
+
 function HomeScreen() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
+  const [stores, setStores] = useState([]);
   const { signOut } = useContext(AuthContext);
 
   useEffect(() => {
@@ -12,25 +24,32 @@ function HomeScreen() {
     .then(data => setUser(data))
   }, [])
 
-  function item({ item }) {
-    return (
-      <TouchableOpacity key={item.id} style={styles.listItems}>
+  useEffect(() => {
+    fetch('http://localhost:8080/api/stores',{
+        method: "GET",
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+        }
+    })
+    .then(r => r.json())
+    .then(data => setStores(data))
+  },[])
+  
+  const renderItem = ({ item }) => (
+      <TouchableOpacity >
         <Text style={styles.listText}> {item.name} </Text>
       </TouchableOpacity>
-    )
-  }
+  );
 
-    return(
-        <View style={styles.container}>
-          <TouchableOpacity onPress={() => signOut()}>
-            <Text style={styles.listText}> Sign Out</Text>
-          </TouchableOpacity>
-            {/* <FlatList
-              data={user.stores} 
-              renderItem={item}
-            /> */}
-        </View>
-    )
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={stores}
+        renderItem={item => renderItem(item)}
+        keyExtractor={item => item.id}
+      />
+    </SafeAreaView>
+  );
 }
 export default HomeScreen;
 
@@ -49,6 +68,6 @@ const styles = StyleSheet.create({
     },
     listText: {
       fontSize: 14,
-      color: 'white'
+      color: 'black'
     }
   })
