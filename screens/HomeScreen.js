@@ -1,17 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Image } from 'react-native';
 import { AuthContext } from '../components/context';
 
-
-function Item({ item }) {
-  return (
-    <View>
-      <TouchableOpacity key={item.id} style={styles.listItems}>
-        <Text style={styles.listText}> {item.name} </Text>
-      </TouchableOpacity>
-    </View>
-  )
-}
 
 function HomeScreen() {
   const [user, setUser] = useState(null);
@@ -34,21 +24,27 @@ function HomeScreen() {
     .then(r => r.json())
     .then(data => setStores(data))
   },[])
-  
+
   const renderItem = ({ item }) => (
-      <TouchableOpacity >
+      <TouchableOpacity style={styles.listItems} >
+        <Image style={styles.thumbnail} source={{uri: item.image}}/>
         <Text style={styles.listText}> {item.name} </Text>
       </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={stores}
-        renderItem={item => renderItem(item)}
-        keyExtractor={item => item.id}
-      />
-    </SafeAreaView>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.text}> Hello {user.firstname}</Text>
+      </View>
+      <SafeAreaView style={styles.storeList}>
+        <FlatList
+          data={stores}
+          renderItem={item => renderItem(item)}
+          keyExtractor={item => item.id}
+        />
+      </SafeAreaView>
+    </View>
   );
 }
 export default HomeScreen;
@@ -56,18 +52,33 @@ export default HomeScreen;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
     },
     text: {
-      color: '#888'
+      color: 'black'
+    },
+    header: {
+      flex: 1,
+      justifyContent: 'center',
+      backgroundColor: 'green'
     },
     listItems: {
-      backgroundColor: 'black',
+      flexDirection: 'row',
+      backgroundColor: 'white',
+      marginBottom: 20,
+      borderColor: 'yellow',
+      borderRadius: 2
       
     },
     listText: {
       fontSize: 14,
       color: 'black'
+    },
+    storeList: {
+      flex: 5,
+      backgroundColor: 'blue'
+    },
+    thumbnail: {
+      width: 65,
+      height: 65
     }
   })
