@@ -16,7 +16,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 function App() {
 
-  const [loggedIn, setLoggedIn] = useState(true)
+  const [loggedIn, setLoggedIn] = useState(null)
   const [user, setUser] = useState(null)
 
   const authContext = useMemo(() => ({

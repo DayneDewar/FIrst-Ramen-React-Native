@@ -33,8 +33,7 @@ function SignInScreen({navigation}) {
             console.log("error code: " + r.status)
             return
            }
-
-           r.json().then(signIn())
+           r.json().then(data => signIn())
         })
         .catch(err => {
            console.log(err)
