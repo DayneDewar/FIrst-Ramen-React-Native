@@ -48,6 +48,9 @@ function HomeScreen() {
       :
       (
       <SafeAreaView style={styles.storeList}>
+        <View style={styles.profile}>
+          <Text>Profile</Text>
+        </View>
         <FlatList
           data={stores}
           renderItem={item => renderItem(item)}
@@ -77,7 +80,8 @@ const styles = StyleSheet.create({
     headerText: {
       color: 'yellow',
       fontWeight: 'bold',
-      fontSize: 30,
+      fontFamily: 'courier',
+      fontSize: 28,
       paddingTop: 55,
     },
     listItems: {
@@ -119,7 +123,15 @@ const styles = StyleSheet.create({
       width: 70,
       height: 70,
       margin: 25,
-      marginTop: 35,
-      left: 8
+      marginTop: 35
+    },
+    profile: {
+      flex: 1,
+      width: 380,
+      backgroundColor: 'white',
+      marginTop: 10,
+      marginBottom: 7,
+      borderColor: 'yellow',
+      borderRadius: 10
     }
   })
