@@ -6,6 +6,7 @@ import logo from '../assets/logo.png'
 function HomeScreen() {
   const [user, setUser] = useState(null);
   const [stores, setStores] = useState([]);
+  const [isBusy, setIsBusy] = useState(true)
   const { signOut } = useContext(AuthContext);
 
   useEffect(() => {
@@ -14,8 +15,8 @@ function HomeScreen() {
     .then(data => setUser(data))
   }, [])
 
-  console.log(user)
   useEffect(() => {
+
     fetch('http://localhost:8080/api/stores',{
         method: "GET",
         headers: {
@@ -24,12 +25,16 @@ function HomeScreen() {
     })
     .then(r => r.json())
     .then(data => setStores(data))
+    setIsBusy(false)
   },[])
 
   const renderItem = ({ item }) => (
       <TouchableOpacity style={styles.listItems} >
           <Image style={styles.thumbnail} source={{uri: item.image}}/>
-          <Text style={styles.listText}> {item.name} hi this the item yea yea yea</Text>
+          <View style={styles.itemContent}>
+            <Text style={styles.listName}> {item.name}</Text>
+            <Text style={styles.listText}> Rating: {item.rating}</Text>
+          </View>
       </TouchableOpacity>
   );
 
@@ -40,8 +45,8 @@ function HomeScreen() {
           <Image style={styles.logo} source={logo}/>
         <Text style={styles.headerText}>Ramen</Text>
       </View>
-      { user === null ? (
-        <View styles={storeList}>
+      { isBusy ? (
+        <View styles={styles.storeList}>
           <Text> Loading </Text>
         </View>
       )
@@ -49,7 +54,8 @@ function HomeScreen() {
       (
       <SafeAreaView style={styles.storeList}>
         <View style={styles.profile}>
-          <Text>Profile</Text>
+          <Text>{user.firstname} {user.lastname}</Text>
+          <Text style={styles.text}> FAVORITE RESTAURANTS </Text>
         </View>
         <FlatList
           data={stores}
@@ -86,32 +92,36 @@ const styles = StyleSheet.create({
     },
     listItems: {
       flexDirection: 'row',
-      width: 380,
+      width: 375,
       backgroundColor: 'white',
       marginTop: 10,
       marginBottom: 7,
-      shadowColor: 'black',
+      marginLeft: 4,
+      marginRight: 4,
+      shadowColor: 'grey',
       shadowOffset: {
-        width: -10,
-        height: 3
+        width: -1,
+        height: 1
       },
-      shadowOpacity: 20,
+      shadowOpacity: 2,
       padding: 7,
-      borderColor: 'yellow',
-      borderRadius: 2
-      
+      borderRadius: 4
+    },
+    itemContent: {
+      paddingHorizontal: 10,
+      flexDirection: 'column'
+    },
+    listName: {
+      fontWeight: 'bold',
+      fontSize: 18,
     },
     listText: {
-      paddingTop: 22,
-      paddingHorizontal: 60,
-      fontSize: 14,
-      color: 'black',
-      alignContent: 'center'
-
+      fontSize: 11,
+      color: 'grey',
     },
     storeList: {
       flex: 5,
-      backgroundColor: 'blue',
+      backgroundColor: '#eee',
       justifyContent: 'center',
       alignItems: 'center'
     },
@@ -131,7 +141,15 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       marginTop: 10,
       marginBottom: 7,
-      borderColor: 'yellow',
-      borderRadius: 10
+      borderTopWidth: 30,
+      borderRadius: 15,
+      borderColor: '#e64f4f',
+      alignItems: 'center',
+      shadowColor: 'grey',
+      shadowOffset: {
+        width: -1,
+        height: 1
+      },
+      shadowOpacity: 2,
     }
   })
