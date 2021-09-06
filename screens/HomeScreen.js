@@ -13,6 +13,7 @@ function HomeScreen() {
     fetch('http://localhost:8080/api/users/2')
     .then(r => r.json())
     .then(data => setUser(data))
+    setIsBusy(false)
   }, [])
 
   useEffect(() => {
@@ -25,7 +26,6 @@ function HomeScreen() {
     })
     .then(r => r.json())
     .then(data => setStores(data))
-    setIsBusy(false)
   },[])
 
   const renderItem = ({ item }) => (
@@ -54,7 +54,7 @@ function HomeScreen() {
       (
       <SafeAreaView style={styles.storeList}>
         <View style={styles.profile}>
-          <Text>{user.firstname} {user.lastname}</Text>
+          {/* <Text>{user.firstname} {user.lastname}</Text> */}
           <Text style={styles.text}> FAVORITE RESTAURANTS </Text>
         </View>
         <FlatList

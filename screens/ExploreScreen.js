@@ -19,6 +19,25 @@ function ExploreScreen() {
     .then(data => setStores(data))
   },[])
 
+  function addFavorite(store) {
+      const newFav = {
+          user_id: 2,
+          store_id: store.id
+      }
+
+      console.log(newFav)
+      fetch('http://localhost:8080/api/users/favoriteStore',{
+          method: "POST",
+          headers: {
+            'Accept': 'application/json, text/plain, */*'
+          },
+          body: JSON.stringify(newFav)
+      })
+      .then(r => r.json())
+      .then()
+
+  }
+
   const markers = stores.map((ramenPlace) => {
       const location = {
           latitude: ramenPlace.lat,
@@ -52,6 +71,9 @@ function ExploreScreen() {
                         <Text style={[styles.textSign, {
                             color: '#FF6347'
                         }]}>Order From Website</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => addFavorite(store)}>
+                        <Text>Fav</Text>
                     </TouchableOpacity>
                 </View>
             </View>
